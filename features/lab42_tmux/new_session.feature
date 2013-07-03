@@ -13,6 +13,7 @@ Feature:
     And it shall attach to the new session at the end
     And the exit status should be 0
 
+  @wip
   Scenario: Session name from directory's base name and some windows
     When I run lab42_tmux ~/xxx/yyy windows: 2 
     Then it shall open a tmux session with name "yyy"

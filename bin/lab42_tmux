@@ -6,4 +6,4 @@ Lab42::Tmux.new do
   options.windows.to_i.times do
     add_window
   end
-end
+end.exec!

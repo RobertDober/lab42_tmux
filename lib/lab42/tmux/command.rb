@@ -1,4 +1,3 @@
-require 'lab42/tmux/options/api'
 class Array
   def mk_string *args, &blk
     args = [' '] if args.empty?
@@ -7,9 +6,8 @@ class Array
 end # class Array
 
 module Lab42
-  module Tmux
+  class Tmux
     module Command
-      include Lab42::Tmux::Options::Api
 
       def tmux cmd
         if @options.dry_run

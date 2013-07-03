@@ -1,4 +1,4 @@
-@wip
+@old
 Feature:
 
   lab42_tmux will not open or attach to a session if no parameter is given

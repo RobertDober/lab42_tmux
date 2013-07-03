@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 2.0.0'
   s.add_dependency 'lab42_options', '~> 0.1.0'
+  s.add_dependency 'forwarder19', '~> 0.2.0'
 
   s.add_development_dependency 'pry', '~> 0.9.12'
   s.add_development_dependency 'cucumber', '~> 1.3.2'
