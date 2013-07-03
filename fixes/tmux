@@ -1,0 +1,11 @@
+#!/usr/bin/zsh
+
+basedir=$(dirname $0)
+if test "$1" = "has-session"
+then
+        # $2 assumed to be -t
+        test -r "${basedir}/$3.session" 
+else
+        echo "@ $@"
+        test "$1" = "attach"
+fi

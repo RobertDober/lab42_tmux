@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+require 'lab42/tmux'
+
+Lab42::Tmux.new do
+  options.windows.to_i.times do
+    add_window
+  end
+end
