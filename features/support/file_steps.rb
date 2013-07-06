@@ -1,4 +1,4 @@
-Given(/^the directories (.*)/) do |dirs|
+Given(/^the director(?:(?:y)|(?:ies)) (.*)/) do |dirs|
   dirs.strip.split( /\s*,\s*/ ).each do | dir |
     step %{a directory named "#{dir}"}
   end

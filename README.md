@@ -10,4 +10,5 @@
   lab42_tmux some_path [windows: n]
 ```
 
-Will open a session with n *additional* windows, each window will be cwed into `some_path`
+If a session with the basename of `some_path` exists will attach to it. Otherwise
+will open a session with that name and n *additional* windows, each window will be cwed into `some_path.

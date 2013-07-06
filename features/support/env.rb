@@ -4,6 +4,8 @@ require 'cucumber/rspec/doubles'
 PROJECT_ROOT = File.expand_path "../../..", __FILE__
 
 Before do
+  # require 'pry'
+  # binding.pry
   # Replace tmux with the mocked tmux
   ENV["PATH"] = "#{File.join(PROJECT_ROOT,"fixes")}:#{ENV["PATH"]}"
   # Use this version of the library

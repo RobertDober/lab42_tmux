@@ -10,3 +10,9 @@ Then(/^it shall open (\d+) additional windows$/) do |wincount|
     verify_window_opened number: n.succ
   end
 end
+Then /\Ait shall open (\d+) windows?\z/ do | n |
+  all_output.scan(%r{@ new-window -t #{@session_name}}).size.should eq( n.to_i )
+end
+Then(/^it shall open only one window$/) do
+  step %{it shall open 1 window}
+end

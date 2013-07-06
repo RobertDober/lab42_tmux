@@ -4,10 +4,10 @@ module Lab42
     class Window
       module Command
         extend Forwarder
-        forward_all :lprefix, :tmux, to: :session
+        forward_all :lprefix, :session_name, :tmux, to: :session
 
         def tmux_new_window( rename: false )
-          [ tmux( "new-window -t #{designation}" ) ] +
+          [ tmux( "new-window -t #{session_name}" ) ] +
             (rename ? [] : [
               tmux( "set-window-option -t #{designation} automatic-rename off" ),
               tmux( "set-window-option -t #{designation} allow-rename off" )

@@ -9,16 +9,12 @@ Then(/^it shall open a tmux session with name "(.*?)"$/) do | session_name |
   verify_sent_keys "cd #@project_dir"
 end
 
-Then(/^it shall not open a tmux session$/) do
-  step %{the output should not contain "@ new-session"}
-end
-
 Then(/^it shall attach to the tmux session$/) do
   @new_output.should include("@ attach -t #{@session_name}")
 end
 
-Then(/^it shall not open another tmux session$/) do
-  @new_output.should_not include("@ new-session")
+Then(/^it shall not open a(?:nother)? tmux session$/) do
+  (@new_output||all_output).should_not include("@ new-session")
 end
 
 Then(/^it shall attach to the new session at the end$/) do
@@ -26,4 +22,8 @@ Then(/^it shall attach to the new session at the end$/) do
 end
 Then(/^it shall not attach to a tmux session$/) do
   step %{the output should not contain "@ attach -t"}
+end
+
+Then(/^it shall print the tmux commands$/) do
+  all_output.should include("tmux new-session -s #@session_name")
 end

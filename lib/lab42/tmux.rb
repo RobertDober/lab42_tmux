@@ -18,13 +18,16 @@ module Lab42
     def current_window; windows.last end
 
     def exec!
-      exec render
+      if options.dry_run
+        puts render
+      else
+        exec render
+      end
     end
 
     def render
       commands =
-        render_session_commands +
-        render_window_commands +
+        render_new_session_or_empty +
         render_final_attach_command
 
       commands.join "\n"
@@ -46,6 +49,21 @@ module Lab42
       @session_name = File.basename project_home rescue nil
     end
 
+    def render_final_attach_command
+      [
+        tmux( "attach -t #{session_name}" )
+      ]
+    end
+
+    def render_new_session_or_empty
+      if session_exists?
+        []
+      else
+        render_session_commands +
+        render_window_commands
+      end
+    end
+
     def render_session_commands
       [
         tmux_new_session,
@@ -54,14 +72,13 @@ module Lab42
       ].compact
     end
 
-    def render_final_attach_command
-      [
-        tmux( "attach -t #{session_name}" )
-      ]
-    end
-
     def render_window_commands
       windows.map(&:render).flatten
+    end
+
+    def session_exists?
+      system "tmux has-session -t #{session_name}"
+      $?.to_i.zero?
     end
   end
 end # module Lab42
