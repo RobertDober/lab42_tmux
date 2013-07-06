@@ -2,6 +2,7 @@ $:.unshift( File.expand_path( "../lib", __FILE__ ) )
 require 'lab42/tmux/version'
 
 version = Lab42::Tmux::VERSION
+
 Gem::Specification.new do |s|
   s.name        = 'lab42_tmux'
   s.version     = version
@@ -10,10 +11,10 @@ Gem::Specification.new do |s|
   s.authors     = ["Robert Dober"]
   s.email       = 'robert.dober@gmail.com'
   s.files       = Dir.glob("lib/**/*.rb")
-  # s.files      += Dir.glob("bin/**/*")
+  # s.files      += Dir.glob("bin/*")
   s.bindir      = "bin"
   s.files      += %w{LICENSE README.md}
-  s.executables = Dir.glob("bin/*")
+  s.executables = Dir.glob("bin/*").map{ |f| f.sub(%r{bin/},"") }
   s.homepage    = "https://github.com/RobertDober/lab42_tmux"
   s.licenses    = %w{MIT}
 
