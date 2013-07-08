@@ -16,3 +16,7 @@ end
 Then(/^it shall open only one window$/) do
   step %{it shall open 1 window}
 end
+
+Then(/^it shall open a window named "([^"]*)"$/) do |win_name|
+  step %{the output should contain "@ new-window -t #@session_name -n #{win_name}"}
+end

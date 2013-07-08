@@ -3,7 +3,7 @@ module Lab42
   class Tmux
     class Window
       include Command
-      attr_accessor :number, :session
+      attr_accessor :command, :name, :number, :session
       def designation
         [session.session_name, number].join ":"
       end

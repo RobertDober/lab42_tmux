@@ -2,6 +2,9 @@ require 'lab42/options'
 require 'lab42/tmux/core_helpers'
 require 'lab42/tmux/commands'
 require 'lab42/tmux/window'
+require 'lab42/tmux/extensions/ostruct'
+require 'lab42/tmux/extensions/hash'
+require 'lab42/tmux/extensions/object'
 
 module Lab42
   class Tmux
@@ -10,9 +13,14 @@ module Lab42
     attr_accessor :options, :windows
     attr_reader   :project_home, :session_name
 
-    def add_window &blk
-      self.windows << Window.new( windows.size, self ) 
-      instance_eval_or_call blk if blk
+    def add_window name=nil, options={}, &blk
+      window =  Window.new( windows.size, self ) 
+      windows << window
+      
+      options.with_present( :name ){ |name| window.name = name }
+      options.with_present( :command ){ |cmd| window.command = cmd }
+
+      window.instance_eval_or_call blk if blk
     end
 
     def current_window; windows.last end
