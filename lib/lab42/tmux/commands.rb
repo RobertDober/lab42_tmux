@@ -2,7 +2,7 @@ module Lab42
   class Tmux
     module Commands
       attr_accessor :window_count
-      def tmux cmd; "tmux #{cmd}" end
+      def tmux cmd; commands << "tmux #{cmd}" end
 
       def tmux_new_session cmd=nil
         tmux "new-session -s #{session_name} -d#{lprefix cmd}"
@@ -13,7 +13,7 @@ module Lab42
       end
 
       def tmux_source_file
-        "tmux source-file #{options.source_file || File.join( ENV["HOME"], ".tmux.conf" )}"
+        tmux "source-file #{options.source_file || File.join( ENV["HOME"], ".tmux.conf" )}"
       end
 
       def lprefix cmd, prefix=" "

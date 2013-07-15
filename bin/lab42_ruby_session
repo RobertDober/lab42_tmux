@@ -1,8 +1,4 @@
 #!/usr/bin/env ruby
+require 'lab42/tmux/predefined/ruby_session'
 
-require 'lab42/tmux'
-
-Lab42::Tmux.new do
-  add_window "repl", command: (@options.fetch(:repl,"irb"))
-  add_window "vi",   command: "vi ."
-end.exec!
+Lab42::Tmux::Predefined::RubySession.new( *ARGV.dup ).exec!

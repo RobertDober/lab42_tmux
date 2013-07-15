@@ -10,11 +10,7 @@ module Lab42
     module Command
 
       def tmux cmd
-        if @options.dry_run
-          puts "tmux #{cmd}"
-        else
-          system "tmux #{cmd}"
-        end
+        commands << "tmux #{cmd}"
       end
 
       def tmux_current_window
@@ -91,10 +87,10 @@ module Lab42
         tmux_send_keys [@options.cmd_prefix, cmd].mk_string, eol
       end
 
-      def tmux_project_home dir=nil
-        dir = File.join @options.dir, dir if dir && %r{\A[^/]} === dir
-        tmux_send_keys "cd #{dir || @options.dir}" 
-      end
+      # def tmux_project_home dir=nil
+      #   dir = File.join @options.dir, dir if dir && %r{\A[^/]} === dir
+      #   tmux_send_keys "cd #{dir || @options.dir}" 
+      # end
 
       def tmux_register_window_command noexec=false, &blk
         blk.() unless noexec

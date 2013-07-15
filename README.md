@@ -7,6 +7,24 @@
 #### lab42\_tmux
 
 ```
+  lab42_ruby_session project_home [:dry_run] [repl: <repl and params>]
+```
+
+Opens a tmux session with the following windows
+
+
+
+
+      repl, defaulting to "irb"
+      vi "vi ."
+      lib "vi lib"
+      spec "vi spec" iff project_home/spec exists
+      features "vi feartures" iff project_home/featutes exists 
+      cucu "sh" iff project_home/featutes exists 
+      a shell
+  
+*Broken in 0.0.2*
+```
   lab42_tmux some_path [windows: n]
 ```
 
