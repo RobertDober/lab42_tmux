@@ -65,7 +65,6 @@ module Lab42
       return if session_exists?
       tmux_new_session
       tmux_source_file
-      tmux_no_session_rename
     end
 
     def session_exists?

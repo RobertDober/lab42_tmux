@@ -29,6 +29,8 @@ module SessionHelpers
 
   def opens_a_tmux_session specs
     @window_count = 0 
+    should include( "tmux set-window-option -g automatic-rename off" )
+    should include( "tmux source-file /home/robert/.tmux.conf" )
     specs.each do | key, val |
       instance_exec(val, &SessionSpecs.specs.fetch(key){ raise ArgumentError, "cannot specify this session parameter : #{key}"})
     end

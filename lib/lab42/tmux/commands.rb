@@ -4,10 +4,6 @@ module Lab42
       attr_accessor :window_count
       def tmux cmd; commands << "tmux #{cmd}" end
 
-      def tmux_no_session_rename
-        tmux "set-window-option -g automatic-rename off" unless options.no_session_rename
-      end
-
       def tmux_source_file
         tmux "source-file #{options.source_file || File.join( ENV["HOME"], ".tmux.conf" )}"
       end
