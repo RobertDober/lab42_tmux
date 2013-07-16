@@ -5,9 +5,13 @@ Then(/^it shall open a tmux session with name "(.*?)"$/) do | session_name |
   step %{the output should contain "@ new-session -s #{session_name} -d"}
   step %{the output should contain "@ source-file #{File.join ENV["HOME"], '.tmux.conf'}"}
   step %{the output should contain "@ set-window-option -g automatic-rename off"}
-  # binding.pry
   verify_sent_keys "cd #@project_dir"
 end
+Then(/^it shall open a tmux session with name "(.*?)" in the project_home$/) do |session_name|
+  step %{it shall open a tmux session with name "#{session_name}"}
+  step %{the output should contain "@ send-keys -t #{session_name}:0 \"cd #@project_dir\""}
+end
+
 
 Then(/^it shall attach to the tmux session$/) do
   @new_output.should include("@ attach -t #{@session_name}")

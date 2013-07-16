@@ -9,6 +9,6 @@ Then(/^it shall open the following windows:$/) do |table|
   # require 'pry'
   # binding.pry
   table.hashes.each_with_index do |hash, idx|
-    should_have_window hash, nb: idx
+    should_have_window hash, nb: idx.succ
   end
 end

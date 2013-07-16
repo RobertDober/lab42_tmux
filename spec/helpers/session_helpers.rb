@@ -19,12 +19,16 @@ module SessionHelpers
     [session_name, @window_count].join ":"
   end
 
+  def changes_to_dir dir
+    should include(%{tmux send-keys -t #{current_window} "cd #{dir}"})
+  end
+
   def go_home
     %{tmux send-keys -t #{current_window} "cd #{project_home}" C-m\n}
   end
 
   def opens_a_tmux_session specs
-    @window_count = -1
+    @window_count = 0 
     specs.each do | key, val |
       instance_exec(val, &SessionSpecs.specs.fetch(key){ raise ArgumentError, "cannot specify this session parameter : #{key}"})
     end

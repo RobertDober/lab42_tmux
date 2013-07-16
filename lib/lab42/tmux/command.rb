@@ -1,3 +1,4 @@
+require 'lab42/tmux/current_window'
 class Array
   def mk_string *args, &blk
     args = [' '] if args.empty?
@@ -8,35 +9,13 @@ end # class Array
 module Lab42
   class Tmux
     module Command
+      include CurrentWindow
 
-      def tmux cmd
-        commands << "tmux #{cmd}"
-      end
-
-      def tmux_current_window
-        window = [@options.session_name, tmux_current_window_number].join(":")
-        "-t #{window}"
-      end
-
-      def tmux_current_window_command cmd, *args
-        args = args.compact
-        arguments = args.empty? ? "" : " #{args.join(" ")}"
-        tmux "#{cmd} #{tmux_current_window}#{arguments}"
-      end
-
-      def tmux_current_window_number
-        @__tmux_current_window_number__ ||= 0
-      end
-
-      def tmux_current_window_number= new_val
-        @__tmux_current_window_number__ = new_val
-      end
-
-      def tmux_execute_window_commands
-        ( @tmux_window_precommands || [] ).each do | blk |
-          blk.()
-        end
-      end
+      # def tmux_execute_window_commands
+      #   ( @tmux_window_precommands || [] ).each do | blk |
+      #     blk.()
+      #   end
+      # end
 
       def tmux_increase_current_window_number by=1
         self.tmux_current_window_number += by
@@ -44,19 +23,18 @@ module Lab42
 
       # tmux new-session -s $session_name -n console -d
       def tmux_new_session params=nil
-        if has_tmux_session?
-          tmux "attach -t #{@options.session_name}"
+        if session_exists?
+          system "tmux attach -t #{session_name}"
           exit 0
         end
         suffix = params ? " #{params}" : ""
-        session_name = @options.session_name
         tmux "new-session -s #{session_name} -d#{suffix}"
-        return if @options.no_source_file || @options.tmux_source_file.nil?
-        tmux "source-file #{@options.tmux_source_file}"
+        unless @options.no_source_file || @options.tmux_source_file.nil?
+          tmux "source-file #{@options.tmux_source_file}"
+        end
         tmux "set-window-option -g automatic-rename off"
-        tmux_project_home
-        at_exit do
-          tmux "attach -t #{session_name}"
+        unless @options.no_cd
+          tmux_project_home
         end
       end
 
@@ -87,10 +65,10 @@ module Lab42
         tmux_send_keys [@options.cmd_prefix, cmd].mk_string, eol
       end
 
-      # def tmux_project_home dir=nil
-      #   dir = File.join @options.dir, dir if dir && %r{\A[^/]} === dir
-      #   tmux_send_keys "cd #{dir || @options.dir}" 
-      # end
+      def tmux_project_home dir=project_home
+        dir = File.join project_home, dir if dir && %r{\A[^/~]} === dir
+        tmux_send_keys "cd #{dir}" 
+      end
 
       def tmux_register_window_command noexec=false, &blk
         blk.() unless noexec

@@ -4,10 +4,6 @@ module Lab42
       attr_accessor :window_count
       def tmux cmd; commands << "tmux #{cmd}" end
 
-      def tmux_new_session cmd=nil
-        tmux "new-session -s #{session_name} -d#{lprefix cmd}"
-      end
-
       def tmux_no_session_rename
         tmux "set-window-option -g automatic-rename off" unless options.no_session_rename
       end

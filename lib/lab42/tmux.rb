@@ -1,6 +1,7 @@
 require 'lab42/options'
 require 'lab42/tmux/core_helpers'
 require 'lab42/tmux/commands'
+require 'lab42/tmux/command'
 require 'lab42/tmux/window'
 require 'lab42/tmux/extensions/ostruct'
 require 'lab42/tmux/extensions/hash'
@@ -10,12 +11,13 @@ require 'lab42/tmux/helpers'
 module Lab42
   class Tmux
     include Commands
+    include Command
     include Helpers
 
     attr_reader   :commands, :options, :project_home, :session_name, :windows
 
     def add_window name=nil, options={}, &blk
-      window =  Window.new windows.size, self, name: name, command: options[:command]
+      window =  Window.new windows.size.succ, self, name: name, command: options[:command]
       windows << window
 
       window.instance_eval_or_call blk if blk

@@ -11,7 +11,7 @@ Feature:
   @wip
   Scenario: A typcial ruby gem's layout
     When I run lab42_ruby_session ~/xxx/mygem
-    Then it shall open a tmux session with name "mygem"
+    Then it shall open a tmux session with name "mygem" in the project_home
     And it shall open the following windows:
       | name     | command     |
       | repl     | irb         |

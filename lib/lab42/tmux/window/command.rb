@@ -6,11 +6,7 @@ module Lab42
       module Command
         include VimCommand
         extend Forwarder
-        forward_all :lprefix, :session_name, to: :session
-
-        def tmux *args
-          added_commands << session.tmux( *args )
-        end
+        forward_all :lprefix, :session_name, :tmux, to: :session
 
         def tmux_new_window( rename: false )
           [ tmux( "new-window -t #{session_name}#{new_window_name}" ) ] +
