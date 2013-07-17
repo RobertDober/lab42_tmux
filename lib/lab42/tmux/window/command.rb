@@ -8,6 +8,7 @@ module Lab42
         extend Forwarder
         forward_all :lprefix, :session_name, :tmux, to: :session
 
+        # TODO: Check for dead code here!
         def tmux_new_window( rename: false )
           [ tmux( "new-window -t #{session_name}#{new_window_name}" ) ] +
             (rename ? [] : [

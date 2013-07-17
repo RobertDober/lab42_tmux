@@ -1,9 +1,10 @@
 #!/usr/bin/env ruby
 
-require 'lab42/tmux'
+require 'lab42/tmux/predefined/tmux_session'
 
-Lab42::Tmux.new do
-  options.windows.to_i.times do
-    add_window
-  end
-end.exec!
+begin
+  Lab42::Tmux::Predefined::TmuxSession.new( *ARGV.dup ).exec!
+rescue ArgumentError => ae
+  $stderr.puts ae.message
+  exit -1
+end

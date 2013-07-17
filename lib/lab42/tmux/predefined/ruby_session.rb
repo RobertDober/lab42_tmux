@@ -33,6 +33,9 @@ module Lab42
             add_window "sh"
             # TODO: Specify this later if needed
             # instance_eval_or_call blk if blk
+            if options[:rails_server]
+              add_window "server", command: "bundle exec rails server"
+            end
           end
         end 
       end # class RubySession

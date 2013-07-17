@@ -8,9 +8,8 @@ Feature:
   Background:
     Given the directories ~/xxx/mygem, ~/xxx/mygem/lib, ~/xxx/mygem/spec, ~/xxx/mygem/features
 
-  @wip
   Scenario: A typcial ruby gem's layout
-    When I run lab42_ruby_session ~/xxx/mygem
+    When I run lab42_ruby_session ~/xxx/mygem :rails_server
     Then it shall open a tmux session with name "mygem" in the project_home
     And it shall open the following windows:
       | name     | command     |
@@ -21,5 +20,6 @@ Feature:
       | features | vi features |
       | cucu     |             |
       | sh       |             |
+      | server   | bundle exec rails server |
     And it shall attach to the new session at the end
     And the exit status should be 0
