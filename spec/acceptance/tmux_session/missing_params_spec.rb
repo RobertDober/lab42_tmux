@@ -3,7 +3,7 @@ require 'lab42/tmux/predefined/tmux_session'
 
 describe "Tmux Session Default Layout" do 
  
-  context "missing params", :focus do
+  context "missing params" do
     it "shall raise an Argument Error" do
       -> { 
         Lab42::Tmux::Predefined::TmuxSession.new(":dry_run")

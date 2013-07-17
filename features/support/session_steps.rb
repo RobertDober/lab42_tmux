@@ -5,7 +5,8 @@ Then(/^it shall open a tmux session with name "(.*?)"$/) do | session_name |
   step %{the output should contain "@ new-session -s #{session_name} -d"}
   step %{the output should contain "@ source-file #{File.join ENV["HOME"], '.tmux.conf'}"}
   step %{the output should contain "@ set-window-option -g automatic-rename off"}
-  verify_sent_keys %{cd #@project_dir}
+  # verify_sent_keys %{cd #@project_dir}
+  verify_changed_to @project_dir
 end
 Then(/^it shall open a tmux session with name "(.*?)" in the project_home$/) do |session_name|
   step %{it shall open a tmux session with name "#{session_name}"}

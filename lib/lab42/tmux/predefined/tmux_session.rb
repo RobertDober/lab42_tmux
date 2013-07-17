@@ -8,7 +8,9 @@ module Lab42
         private
         def initialize *args, &blk
           @tmux = Lab42::Tmux.new args do
-            add_window "repl", command: options.fetch(:repl,"irb") 
+            options.wins.to_i.times do
+              add_window "sh"
+            end
           end
         end 
       end # cmass TmuxSession

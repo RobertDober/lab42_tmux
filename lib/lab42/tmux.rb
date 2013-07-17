@@ -52,6 +52,8 @@ module Lab42
 
     def process_options
       @project_home = options.args.first
+      @project_home = File.join Dir.pwd, @project_home unless
+        !@project_home || %r{\A[/~]} === @project_home
       @session_name = File.basename project_home rescue nil
     end
 
