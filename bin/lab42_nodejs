@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require 'lab42/tmux/predefined/nodejs'
+
+Lab42::Tmux::Predefined::NodeJS.new( *ARGV.dup ).exec!

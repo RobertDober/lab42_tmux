@@ -4,3 +4,7 @@ Given(/^the director(?:(?:y)|(?:ies)) (.*)/) do |dirs|
   end
 end
 
+Given(/^the yaml file (\w+) with the following content$/) do |fn, table|
+  @yaml_file_name = fn.sub /(?<=.)[^.*]\z/, ""
+end
+

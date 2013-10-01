@@ -13,7 +13,6 @@ Feature:
     And it shall attach to the new session at the end
     And the exit status should be 0
 
-  @focus
   Scenario: Additional windows
     When I run lab42_tmux mydir wins: 2
     Then it shall open a tmux session with name "mydir" in the project_home

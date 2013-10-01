@@ -11,7 +11,6 @@ Feature:
     And it shall not open a tmux session
     And the exit status should be -1
 
-  @focus
   Scenario: Missing directory
     When I run lab42_tmux nonexisting_dir
     Then the output should match "no such directory .*nonexisting_dir"
