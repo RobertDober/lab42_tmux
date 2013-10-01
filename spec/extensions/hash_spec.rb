@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'lab42/tmux'
 
 describe Hash do

@@ -45,15 +45,23 @@ module Lab42
       @windows = []
       process_options
       raise ArgumentError, "unable to determine session name" unless session_name
-      raise ArgumentError, "no such directory #{project_home}" unless project_home && File.directory?( project_home )
       session_commands
       instance_eval_or_call blk
     end
 
+    def determine_yaml_or_dir
+      if yaml_file_name = File::YAML.exists?( project_home  )
+        # do something
+      else
+        raise ArgumentError, "#{projcet_home} is neither a yaml file or directory (yaml files are looked for with an added .yaml or .yml extension)" unless
+          File.directory? project_home
+      end
+    end
     def process_options
       @project_home = options.args.first
       @project_home = File.join Dir.pwd, @project_home unless
         !@project_home || %r{\A[/~]} === @project_home
+      determine_yaml_or_dir if project_home
       @session_name = File.basename project_home rescue nil
     end
 

@@ -10,7 +10,8 @@ Then(/^it shall open a tmux session with name "(.*?)"$/) do | session_name |
 end
 
 Then(/^it shall open a tmux session with name specified in the yaml file$/) do
-  @yaml_file_content.fetch("session_name", @yaml_file_name.sub(/?(<=.)[^.*]\z/,"")
+  session_name = @yaml_file_content.fetch "session_name", @yaml_file_name
+  step %{it shall open a tmux session with name "#{session_name}"}
 end
 
 Then(/^it shall open a tmux session with name "(.*?)" in the project_home$/) do |session_name|

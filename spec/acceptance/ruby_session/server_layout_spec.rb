@@ -1,7 +1,8 @@
 require 'spec_helper'
 require 'lab42/tmux/predefined/ruby_session'
 
-describe "Ruby Session Default Layout", :wip do 
+# TODO: wip and implement this
+describe "Ruby Session Default Layout" do 
  
   before do
     given directories: %w{~/ruby/mygem ~/ruby/mygem/lib ~/ruby/mygem/spec ~/ruby/mygem/features}

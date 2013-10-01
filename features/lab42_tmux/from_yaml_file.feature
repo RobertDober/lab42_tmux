@@ -5,12 +5,13 @@ Feature:
 
   Background:
     Given the directory mydir
-    And the yaml file mydir with the following content
-      | key  | value |
-      | wins | 1     |
-      | vi   | true  |
+    And the yaml file mydir with the following content:
+      | key          | value             |
+      | session_name | yaml_file_session |
+      | wins         | 1                 |
+      | vi           | true              |
 
-    @wip
+  @wip
   Scenario: Opens session from file
     When I run lab42_tmux mydir
     Then it shall open a tmux session with name specified in the yaml file
