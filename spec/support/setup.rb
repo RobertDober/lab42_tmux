@@ -6,6 +6,11 @@ module Setup extend self
     end
   end
 
+  def _dir_pwd_setup
+    -> dir do
+      Dir.stub(:pwd){ dir }
+    end
+  end
   def _yaml_content_setup
     require 'yaml'
     -> yaml_content do
@@ -17,13 +22,17 @@ module Setup extend self
 
   def _yaml_file_setup
     -> yml_file do
-      File.stub(:readable?){ |fn| "#{yml_file}.yml" == fn }
+      File.stub :readable? do |f|
+        # puts "stubbed: #{yml_file}, checking: #{f}"
+        yml_file == f
+      end
     end
   end
 
   def setups
     @__setups__ ||=
       {
+      current_dir: _dir_pwd_setup,
       directory: _dir_setup,
       directories: _dir_setup,
       with_yaml_content: _yaml_content_setup,
@@ -38,8 +47,10 @@ module Setup extend self
   end
 
   def setup_entity key, val
-    setups.fetch(key){ raise ArgumentError, "no such entity to be setup: #{key}" }
-    .( val )
+    prc = setups.fetch(key){ raise ArgumentError, "no such entity to be setup: #{key}" }
+    # require 'pry'
+    # binding.pry 
+    prc.( val )
   end
 
 end

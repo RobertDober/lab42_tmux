@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'lab42/tmux/extensions/file'
 
-describe File::YAML, :wip do
+describe File::YAML do
 
   subject do
     described_class

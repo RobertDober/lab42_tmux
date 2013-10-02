@@ -14,7 +14,7 @@ module Lab42
     include Command
     include Helpers
 
-    attr_reader   :commands, :options, :project_home, :session_name, :windows
+    attr_reader :commands, :options, :project_home, :session_name, :windows, :yaml_file_name
 
     def add_window name=nil, options={}, &blk
       window =  Window.new windows.size.succ, self, name: name, command: options[:command]
@@ -50,25 +50,32 @@ module Lab42
     end
 
     def determine_yaml_or_dir
-      if yaml_file_name = File::YAML.exists?( project_home  )
-        # do something
+      if @yaml_file_name = File::YAML.exists?( project_home )
       else
-        raise ArgumentError, "#{projcet_home} is neither a yaml file or directory (yaml files are looked for with an added .yaml or .yml extension)" unless
+        raise ArgumentError, "#{project_home} is neither a yaml file or directory (yaml files are looked for with an added .yaml or .yml extension)" unless
           File.directory? project_home
       end
-    end
-    def process_options
-      @project_home = options.args.first
-      @project_home = File.join Dir.pwd, @project_home unless
-        !@project_home || %r{\A[/~]} === @project_home
-      determine_yaml_or_dir if project_home
-      @session_name = File.basename project_home rescue nil
     end
 
     def final_attach_command
       [
         "tmux attach -t #{session_name}"
       ]
+    end
+
+    def process_options
+      @project_home = options.args.first
+      @project_home = File.join Dir.pwd, @project_home unless
+        !@project_home || %r{\A[/~]} === @project_home
+      determine_yaml_or_dir if project_home
+      process_yaml_file
+      @session_name ||= File.basename project_home rescue nil
+    end
+
+    def process_yaml_file
+      return unless yaml_file_name
+      # TODO: Handle YAML errors from YAML.load
+      yaml_content = YAML.load( File.read yaml_file_name )
     end
 
     def session_commands
