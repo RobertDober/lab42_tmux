@@ -1,4 +1,15 @@
 class File
+  class << self
+    alias_method :__orig_absolute_path__, :absolute_path
+    def absolute_path fn
+      if %r{\A~} === fn && home = ENV["HOME"]
+        File.join home, fn.sub(%r{\A~#{File::Separator}},"")
+      else
+        __orig_absolute_path__ fn
+      end
+    end
+  end
+
   module YAML extend self
     def exists? fn
       f = fn.sub %r{(?<=\.)[^.]*\z}, ""

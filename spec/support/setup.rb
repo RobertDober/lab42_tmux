@@ -1,8 +1,12 @@
+require 'lab42/core/fn'
 module Setup extend self
 
   def _dir_setup 
-    -> dirs do
-      File.stub(:directory?){ |dir| dirs.include? dir }
+    -> *dirs do
+      dirs = dirs.map File.fn.absolute_path
+      File.stub(:directory?){ |dir|
+        puts "stubbed: #{dirs}, checking: #{dir}"
+        dirs.include? dir }
     end
   end
 
@@ -23,8 +27,8 @@ module Setup extend self
   def _yaml_file_setup
     -> yml_file do
       File.stub :readable? do |f|
-        # puts "stubbed: #{yml_file}, checking: #{f}"
-        yml_file == f
+      #   puts "stubbed: #{yml_file}, checking: #{f}"
+        File.absolute_path(yml_file) == f
       end
     end
   end

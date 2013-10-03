@@ -3,6 +3,8 @@ require 'lab42/tmux/core_helpers'
 require 'lab42/tmux/commands'
 require 'lab42/tmux/command'
 require 'lab42/tmux/window'
+require 'lab42/tmux/extensions/enumerable'
+require 'lab42/tmux/extensions/file'
 require 'lab42/tmux/extensions/ostruct'
 require 'lab42/tmux/extensions/hash'
 require 'lab42/tmux/extensions/object'
@@ -40,20 +42,25 @@ module Lab42
 
     private
     def initialize args, &blk
-      @options = Lab42::Options.new.parse( *args.dup )
+      @options = Lab42::Options.new
+      yaml_or_project_home args.first
+      @options = @options.parse( *args.dup )
       @commands = []
       @windows = []
-      process_options
+      set_basic_ivars
       raise ArgumentError, "unable to determine session name" unless session_name
       session_commands
       instance_eval_or_call blk
     end
 
-    def determine_yaml_or_dir
-      if @yaml_file_name = File::YAML.exists?( project_home )
+    def yaml_or_project_home fn
+      fn = File.absolute_path fn
+      if @yaml_file_name = File::YAML.exists?( fn )
+        @options.read_from @yaml_file_name
       else
-        raise ArgumentError, "#{project_home} is neither a yaml file or directory (yaml files are looked for with an added .yaml or .yml extension)" unless
-          File.directory? project_home
+        raise ArgumentError, "#{fn} is neither a yaml file or directory (yaml files are looked for with an added .yaml or .yml extension)" unless
+          File.directory? fn
+        @project_home = fn
       end
     end
 
@@ -63,19 +70,10 @@ module Lab42
       ]
     end
 
-    def process_options
-      @project_home = options.args.first
-      @project_home = File.join Dir.pwd, @project_home unless
-        !@project_home || %r{\A[/~]} === @project_home
-      determine_yaml_or_dir if project_home
-      process_yaml_file
+    def set_basic_ivars
+      @session_name = @options.fetch :session_name, nil
+      @project_home ||= @options.fetch :project_home, nil
       @session_name ||= File.basename project_home rescue nil
-    end
-
-    def process_yaml_file
-      return unless yaml_file_name
-      # TODO: Handle YAML errors from YAML.load
-      yaml_content = YAML.load( File.read yaml_file_name )
     end
 
     def session_commands

@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'lab42/tmux/predefined/tmux_session'
 
-describe 'Tmux Session Load From YAML File', :wip do
+describe 'Tmux Session Load From YAML File' do
   
   context "given a yaml file" do 
     before do
@@ -12,9 +12,9 @@ describe 'Tmux Session Load From YAML File', :wip do
     end
 
     let(:project_home){"~/ruby/mygem"}
-    let(:yaml_file){"/some/path/xxx.yml"}
+    let(:yaml_file){"xxx.yml"}
     let(:param){"xxx"}
-    let(:session_name){ "a session" }
+    let(:session_name){ "a_session" }
 
     subject do
       Lab42::Tmux::Predefined::TmuxSession.new( param, ":dry_run" ).render
