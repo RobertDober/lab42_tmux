@@ -42,6 +42,7 @@ module Lab42
 
     private
     def initialize args, &blk
+      version! args.first
       @options = Lab42::Options.new
       yaml_or_project_home args.first
       @options = @options.parse( *args.dup )
@@ -54,13 +55,17 @@ module Lab42
     end
 
     def yaml_or_project_home fn
-      fn = File.absolute_path fn
-      if @yaml_file_name = File::YAML.exists?( fn )
+      f = File.absolute_path fn
+      if @yaml_file_name = File::YAML.exists?( f )
         @options.read_from @yaml_file_name
       else
-        raise ArgumentError, "#{fn} is neither a yaml file nor a directory (yaml files are looked for with an added .yaml or .yml extension)" unless
-          File.directory? fn
-        @project_home = fn
+        if File.directory? f
+          @project_home = f
+        else
+          @yaml_file_name = File::YAML.exists?( fn,search_path: File.join(ENV["HOME"],".lab42_tmux","yaml_files"))
+          raise ArgumentError, "#{fn} is neither a yaml file nor a directory (yaml files are looked for with an added .yaml or .yml extension)" unless @yaml_file_name
+          @options.read_from @yaml_file_name
+        end
       end
     end
 
@@ -86,6 +91,14 @@ module Lab42
       return false if options.dry_run
       system "tmux has-session -t #{session_name}"
       $?.to_i.zero?
+    end
+
+    def version! arg
+      require 'lab42/tmux/version'
+      if %r{\A(?::|--)version\z} === arg
+        puts Lab42::Tmux::VERSION
+        exit -1
+      end
     end
   end
 end # module Lab42

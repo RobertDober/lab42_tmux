@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'lab42/tmux/predefined/tmux_session'
 
-describe "Tmux Session Default Layout" do 
+describe "Tmux Session Default Layout" do
  
   before do
     given directories: project_home
