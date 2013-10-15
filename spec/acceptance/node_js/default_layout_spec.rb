@@ -4,7 +4,7 @@ require 'lab42/tmux/predefined/nodejs'
 describe "NodeJS Session Default Layout", :focus do 
  
   before do
-    given directories: %w{~/nodeproject ~/nodeproject/src ~/nodeproject/spec}
+    given directories: %w{~/nodeproject ~/nodeproject/src ~/nodeproject/spec ~/nodeproject/features}
   end
   subject do
     Lab42::Tmux::Predefined::NodeJS.new(project_home, ":dry_run" ).render
@@ -14,7 +14,7 @@ describe "NodeJS Session Default Layout", :focus do
 
   it {
     opens_a_tmux_session name: session_name
-    changes_to_dir project_home
+    changes_to_dir File.expand_path(project_home)
     opens_a_window named: "repl", with_command: "node"
     opens_a_window named: "vi", with_command: "vi ."
     opens_a_window named: "src", with_command: "vi src"

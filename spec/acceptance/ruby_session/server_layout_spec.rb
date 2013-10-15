@@ -15,7 +15,7 @@ describe "Ruby Session Default Layout" do
 
   it {
     opens_a_tmux_session name: session_name
-    changes_to_dir project_home
+    changes_to_dir File.expand_path(project_home)
     opens_a_window named: "repl", with_command: "irb"
     opens_a_window named: "vi", with_command: "vi ."
     opens_a_window named: "lib", with_command: "vi lib"

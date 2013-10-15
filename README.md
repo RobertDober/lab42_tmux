@@ -2,6 +2,8 @@
 
 ## Tmux
 
+Read [Release Notes](RELEASE.md) for information concerning a specific version.
+
 ### Predefined Scripts
 
 #### lab42\_tmux
@@ -30,3 +32,8 @@ Opens a tmux session with the following windows
 
 If a session with the basename of `some_path` exists will attach to it. Otherwise
 will open a session with that name and n *additional* windows, each window will be cwed into `some_path.
+
+
+#### lab42\_ruby\_session
+
+...

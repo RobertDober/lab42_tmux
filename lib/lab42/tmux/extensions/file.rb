@@ -1,5 +1,6 @@
 class File
   class << self
+    # TODO: Get rid of this and use expand_path
     alias_method :__orig_absolute_path__, :absolute_path
     def absolute_path fn
       if %r{\A~} === fn && home = ENV["HOME"]

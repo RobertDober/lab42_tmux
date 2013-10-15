@@ -14,7 +14,7 @@ describe "Tmux Session Default Layout" do
 
   it {
     opens_a_tmux_session name: session_name
-    changes_to_dir project_home
+    changes_to_dir File.absolute_path(project_home)
   }
 end # describe "Tmux Session Default Layout"
 

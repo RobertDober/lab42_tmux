@@ -24,7 +24,7 @@ module SessionHelpers
   end
 
   def go_home
-    %{tmux send-keys -t #{current_window} "cd #{project_home}" C-m\n}
+    %{tmux send-keys -t #{current_window} "cd #{File.expand_path project_home}" C-m\n}
   end
 
   def opens_a_tmux_session specs

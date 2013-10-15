@@ -58,7 +58,7 @@ module Lab42
       if @yaml_file_name = File::YAML.exists?( fn )
         @options.read_from @yaml_file_name
       else
-        raise ArgumentError, "#{fn} is neither a yaml file or directory (yaml files are looked for with an added .yaml or .yml extension)" unless
+        raise ArgumentError, "#{fn} is neither a yaml file nor a directory (yaml files are looked for with an added .yaml or .yml extension)" unless
           File.directory? fn
         @project_home = fn
       end

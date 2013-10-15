@@ -1,9 +1,8 @@
-require 'lab42/core/fn'
 module Setup extend self
 
   def _dir_setup 
     -> *dirs do
-      dirs = dirs.map File.fn.absolute_path
+      dirs = dirs.flatten.map{ |d| File.absolute_path d }
       File.stub(:directory?){ |dir|
         puts "stubbed: #{dirs}, checking: #{dir}"
         dirs.include? dir }
